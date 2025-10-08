@@ -6,7 +6,7 @@ export { applyHooks, runStep } from './store';
 export { loadFeatures } from './load';
 export { bunTestCucumber } from './plugin';
 
-interface AddHookFunction<S> {
+export interface AddHookFunction<S> {
   /**
    * Simple hook definition function
    *
@@ -147,21 +147,21 @@ interface AddHookFunction<S> {
   <State = S>(name: string, options: { tags: string }, fn: HookFunction<State>): void;
 }
 
-interface AddStepFunction<S> {
+export interface AddStepFunction<S> {
   <Pattern extends string, State = S>(
     pattern: Pattern,
     fn: (state: State, args: ExtractTypes<Pattern>, data?: PickleStepArgument) => State | Promise<State>,
   ): void;
 }
 
-interface AddStepFunctionWithState<State> {
+export interface AddStepFunctionWithState<State> {
   <Pattern extends string>(
     pattern: Pattern,
     fn: (state: State, args: ExtractTypes<Pattern>, data?: PickleStepArgument) => State | Promise<State>,
   ): void;
 }
 
-interface WithState<S> {
+export interface WithState<S> {
   BeforeAll: AddHookFunction<S>;
   Before: AddHookFunction<S>;
   BeforeStep: AddHookFunction<S>;
