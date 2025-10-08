@@ -18,7 +18,16 @@
     "lint": "bunx --bun oxlint --type-aware",
     "types": "tsc --noEmit"
   },
-  "keywords": [],
+  "keywords": [
+    "cucumber",
+    "bun",
+    "bun-test",
+    "bunjs",
+    "typescript",
+    "bdd",
+    "gherkin",
+    "testing"
+  ],
   "author": "Joakim Carlstein <joakim@aboviq.com> (https://aboviq.com)",
   "license": "MIT",
   "description": "Run Cucumber tests with Bun's test runner and full TypeScript support",
