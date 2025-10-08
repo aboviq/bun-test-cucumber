@@ -3,7 +3,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "main": "src/index.ts",
   "exports": {
@@ -13,6 +13,7 @@
     }
   },
   "scripts": {
+    "release": "commit-and-tag-version",
     "test": "bun test",
     "format": "bunx --bun prettier --write .",
     "lint": "bunx --bun oxlint --type-aware",
@@ -40,6 +41,7 @@
   "devDependencies": {
     "@prettier/plugin-oxc": "^0.0.4",
     "@types/bun": "^1.2.23",
+    "commit-and-tag-version": "^12.6.0",
     "oxlint": "^1.20.0",
     "oxlint-tsgolint": "^0.2.0",
     "prettier": "^3.6.2",
