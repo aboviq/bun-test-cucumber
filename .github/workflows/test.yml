@@ -1,0 +1,20 @@
+name: Test with Bun
+jobs:
+  checks:
+    name: Checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Lint code
+        run: bun run lint
+
+      - name: Type checks
+        run: bun run types
+
+      - name: Run tests
+        run: bun test
