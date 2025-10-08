@@ -1,0 +1,39 @@
+{
+  "name": "@aboviq/bun-test-cucumber",
+  "publishConfig": {
+    "access": "public"
+  },
+  "version": "0.0.0",
+  "type": "module",
+  "main": "src/index.ts",
+  "exports": {
+    ".": {
+      "bun": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "test": "bun test",
+    "format": "bunx --bun prettier --write .",
+    "lint": "bunx --bun oxlint --type-aware",
+    "types": "tsc --noEmit"
+  },
+  "keywords": [],
+  "author": "Joakim Carlstein <joakim@aboviq.com> (https://aboviq.com)",
+  "license": "MIT",
+  "description": "Run Cucumber tests with Bun's test runner and full TypeScript support",
+  "dependencies": {
+    "@cucumber/cucumber-expressions": "^18.0.1",
+    "@cucumber/gherkin": "^35.1.0",
+    "@cucumber/messages": "^30.0.0",
+    "@cucumber/tag-expressions": "^7.0.0"
+  },
+  "devDependencies": {
+    "@prettier/plugin-oxc": "^0.0.4",
+    "@types/bun": "^1.2.23",
+    "oxlint": "^1.20.0",
+    "oxlint-tsgolint": "^0.2.0",
+    "prettier": "^3.6.2",
+    "typescript": "^5.9.3"
+  }
+}

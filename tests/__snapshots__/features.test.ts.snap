@@ -1,0 +1,40 @@
+// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
+
+exports[`My Feature with Tags Some Scenario with array data I have data 1`] = `
+[
+  "array",
+  "before",
+  "first",
+  "second",
+]
+`;
+
+exports[`My Feature with Tags Some Scenario with another array of data I have data 1`] = `
+[
+  "array",
+  "when",
+]
+`;
+
+exports[`My Feature with Outline 1. Some Scenario with Outline and big integers It should match snapshot 1`] = `1n`;
+
+exports[`My Feature with Outline 2. Some Scenario with Outline and big integers It should match snapshot 1`] = `2n`;
+
+exports[`My Feature with Outline 1. Some Scenario with Outline and integers It should match snapshot 1`] = `3`;
+
+exports[`My Feature with Outline 2. Some Scenario with Outline and integers It should match snapshot 1`] = `5`;
+
+exports[`With Data With Data Scenario I have data 1`] = `
+[
+  {
+    "Header 1": "Value 1",
+    "Header 2": "Value 2",
+    "Header 3": "Value 3",
+  },
+  {
+    "Header 1": "Value A",
+    "Header 2": "Value B",
+    "Header 3": "Value C",
+  },
+]
+`;
