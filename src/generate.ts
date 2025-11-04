@@ -3,13 +3,9 @@ import { resolveSync } from 'bun';
 import type { GherkinDocument, Pickle } from '@cucumber/messages';
 import parseTags from '@cucumber/tag-expressions';
 
-import { escape } from './util';
-
 type TagExpression = ReturnType<typeof parseTags>;
 
 const getPickleName = (pickle: Pickle, index: number, pickles: readonly Pickle[]): string => {
-  const name = escape(pickle.name);
-
   const indexesWithSameName: number[] = [];
 
   pickles.forEach((p, i) => {
@@ -19,10 +15,10 @@ const getPickleName = (pickle: Pickle, index: number, pickles: readonly Pickle[]
   });
 
   if (indexesWithSameName.length > 1) {
-    return `${index + 1 - (indexesWithSameName[0] ?? 0)}. ${escape(name)}`;
+    return JSON.stringify(`${index + 1 - (indexesWithSameName[0] ?? 0)}. ${pickle.name}`);
   }
 
-  return escape(name);
+  return JSON.stringify(pickle.name);
 };
 
 const getSkip = (pickle: Pickle, tagExpression?: TagExpression): string => {
@@ -68,13 +64,10 @@ export const generate = (
     state = await applyHooks('afterAll', state);
   });
 
-  describe('${escape(featureName)}', () => {
+  describe(${JSON.stringify(featureName)}, () => {
     ${pickles
       .map(
-        (
-          pickle,
-          index,
-        ) => `describe${getSkip(pickle, tagExpression)}('${getPickleName(pickle, index, pickles)}', () => {
+        (pickle, index) => `describe${getSkip(pickle, tagExpression)}(${getPickleName(pickle, index, pickles)}, () => {
       beforeAll(async () => {
         state = await applyHooks('before', state, ${JSON.stringify(pickle.tags)});
       });
@@ -89,7 +82,7 @@ export const generate = (
       });
       ${pickle.steps
         .map(
-          (step) => `it('${escape(step.text)}', async () => {
+          (step) => `it(${JSON.stringify(step.text)}, async () => {
         state = await runStep(${JSON.stringify(step)}, state);
       });`,
         )

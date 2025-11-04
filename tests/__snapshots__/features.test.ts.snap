@@ -1,5 +1,32 @@
 // Bun Snapshot v1, https://bun.sh/docs/test/snapshots
 
+exports[`Issue #1 - Names with 'Quotes', "Double Quotes" and \`Backticks\` Name with 'quotes' I have data 1`] = `
+[
+  ""value"",
+  ""another value"",
+]
+`;
+
+exports[`Issue #1 - Names with 'Quotes', "Double Quotes" and \`Backticks\` Name with "double quotes" I have data 1`] = `
+[
+  ""value"",
+  ""another value"",
+  "'value'",
+  "'another value'",
+]
+`;
+
+exports[`Issue #1 - Names with 'Quotes', "Double Quotes" and \`Backticks\` Name with \`backticks\` I have data 1`] = `
+[
+  ""value"",
+  ""another value"",
+  "'value'",
+  "'another value'",
+  "\`value\`",
+  "\`another value\`",
+]
+`;
+
 exports[`My Feature with Tags Some Scenario with array data I have data 1`] = `
 [
   "array",
