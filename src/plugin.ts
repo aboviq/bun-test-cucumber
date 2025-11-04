@@ -66,18 +66,21 @@ export const bunTestCucumber = (options: BunTestCucumberOptions): BunPlugin => {
 
         const gherkinDocument = parser.parse(content);
         const pickles = compile(gherkinDocument, args.path, uuidFn);
+        try {
+          const text = generate(gherkinDocument, pickles, {
+            imports: stepDefinitionsImports,
+            tagExpression,
+          });
 
-        const text = generate(gherkinDocument, pickles, {
-          imports: stepDefinitionsImports,
-          tagExpression,
-        });
+          options.onGenerate?.(gherkinDocument, pickles, text);
 
-        options.onGenerate?.(gherkinDocument, pickles, text);
-
-        return {
-          contents: text,
-          loader: 'ts',
-        };
+          return {
+            contents: text,
+            loader: 'ts',
+          };
+        } catch (error) {
+          throw new Error(`Failed to generate test file for: ${args.path}`, { cause: error });
+        }
       });
     },
   };
