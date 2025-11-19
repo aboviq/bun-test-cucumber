@@ -11,7 +11,7 @@ const steps: Step[] = [];
 const hooks = new Map<HookType, Hook<unknown>[]>();
 
 export const addStep = (expression: string | RegExp, fn: Function): void => {
-  const cucumberExpression = typeof expression === 'string' && /^\/.*\/$/.test(expression)
+  const cucumberExpression = typeof expression === 'string' && /^\/.*\/$|^\^.*\$$/.test(expression)
     ? expressionFactory.createExpression(new RegExp(expression.slice(1, -1)))
     : expressionFactory.createExpression(expression);
 
