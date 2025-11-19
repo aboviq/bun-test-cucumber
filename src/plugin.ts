@@ -6,6 +6,7 @@ import { IdGenerator, type GherkinDocument, type Pickle } from '@cucumber/messag
 import parseTags from '@cucumber/tag-expressions';
 
 import { generate } from './generate';
+import { normalizePath } from './utils';
 
 interface BunTestCucumberOptions {
   /**
@@ -56,7 +57,7 @@ export const bunTestCucumber = (options: BunTestCucumberOptions): BunPlugin => {
         cwd: options.cwd,
         absolute: true,
       })) {
-        stepDefinitionsImports += `import "${file}";\n`;
+        stepDefinitionsImports += `import "${normalizePath(file)}";\n`;
       }
 
       build.onLoad({ filter: /\.feature$/ }, async (args) => {
