@@ -10,8 +10,10 @@ const steps: Step[] = [];
 
 const hooks = new Map<HookType, Hook<unknown>[]>();
 
-export const addStep = (expression: string, fn: Function): void => {
-  const cucumberExpression = expressionFactory.createExpression(expression);
+export const addStep = (expression: string | RegExp, fn: Function): void => {
+  const cucumberExpression = typeof expression === 'string' && /^\/.*\/$/.test(expression)
+    ? expressionFactory.createExpression(new RegExp(expression.slice(1, -1)))
+    : expressionFactory.createExpression(expression);
 
   if (!fn.name) {
     Object.defineProperty(fn, 'name', { value: expression });

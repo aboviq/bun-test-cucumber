@@ -148,14 +148,14 @@ export interface AddHookFunction<S> {
 }
 
 export interface AddStepFunction<S> {
-  <Pattern extends string, State = S>(
+  <Pattern extends string | RegExp, State = S>(
     pattern: Pattern,
     fn: (state: State, args: ExtractTypes<Pattern>, data?: PickleStepArgument) => State | Promise<State>,
   ): void;
 }
 
 export interface AddStepFunctionWithState<State> {
-  <Pattern extends string>(
+  <Pattern extends string | RegExp>(
     pattern: Pattern,
     fn: (state: State, args: ExtractTypes<Pattern>, data?: PickleStepArgument) => State | Promise<State>,
   ): void;
