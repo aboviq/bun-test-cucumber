@@ -148,14 +148,24 @@ export interface AddHookFunction<S> {
 }
 
 export interface AddStepFunction<S> {
-  <Pattern extends string | RegExp, State = S>(
+  // Early termination for RegExp types
+  <State = S>(
+    pattern: RegExp,
+    fn: (state: State, args: Array<string | undefined>, data?: PickleStepArgument) => State | Promise<State>,
+  ): void;
+  <Pattern extends string, State = S>(
     pattern: Pattern,
     fn: (state: State, args: ExtractTypes<Pattern>, data?: PickleStepArgument) => State | Promise<State>,
   ): void;
 }
 
 export interface AddStepFunctionWithState<State> {
-  <Pattern extends string | RegExp>(
+  // Early termination for RegExp types
+  (
+    pattern: RegExp,
+    fn: (state: State, args: Array<string | undefined>, data?: PickleStepArgument) => State | Promise<State>,
+  ): void;
+  <Pattern extends string>(
     pattern: Pattern,
     fn: (state: State, args: ExtractTypes<Pattern>, data?: PickleStepArgument) => State | Promise<State>,
   ): void;
@@ -222,20 +232,16 @@ export interface WithState<S> {
  * @returns Hook and step definitions with state type inference
  */
 export const withState = <State>(): WithState<State> => {
-  const addStepWithState: AddStepFunctionWithState<State> = (pattern, fn) => {
-    addStep(pattern, fn);
-  };
-
   return {
-    BeforeAll: BeforeAll<State>,
-    Before: Before<State>,
-    BeforeStep: BeforeStep<State>,
-    AfterStep: AfterStep<State>,
-    After: After<State>,
-    AfterAll: AfterAll<State>,
-    Given: addStepWithState,
-    When: addStepWithState,
-    Then: addStepWithState,
+    BeforeAll,
+    Before,
+    BeforeStep,
+    AfterStep,
+    After,
+    AfterAll,
+    Given,
+    When,
+    Then,
   };
 };
 
@@ -263,16 +269,9 @@ export const AfterAll: AddHookFunction<unknown> = (...args: unknown[]) => {
   addHook('afterAll', ...args);
 };
 
-export const Given: AddStepFunction<unknown> = (pattern, fn) => {
-  addStep(pattern, fn);
-};
-
-export const When: AddStepFunction<unknown> = (pattern, fn) => {
-  addStep(pattern, fn);
-};
-export const Then: AddStepFunction<unknown> = (pattern, fn) => {
-  addStep(pattern, fn);
-};
+export const Given: AddStepFunction<unknown> = addStep;
+export const When: AddStepFunction<unknown> = addStep;
+export const Then: AddStepFunction<unknown> = addStep;
 
 /**
  * Extracts and transforms the data table from a PickleStep argument
