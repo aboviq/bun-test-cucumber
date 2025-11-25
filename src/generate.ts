@@ -3,6 +3,8 @@ import { resolveSync } from 'bun';
 import type { GherkinDocument, Pickle } from '@cucumber/messages';
 import parseTags from '@cucumber/tag-expressions';
 
+import { normalizePath } from './utils';
+
 type TagExpression = ReturnType<typeof parseTags>;
 
 const getPickleName = (pickle: Pickle, index: number, pickles: readonly Pickle[]): string => {
@@ -51,15 +53,17 @@ export const generate = (
     throw new Error('Feature name is missing');
   }
 
+  const path = normalizePath(resolveSync('./index.ts', import.meta.dir));
+
   return `import { afterAll, afterEach, beforeAll, beforeEach, describe, it } from 'bun:test';
-  import { applyHooks, runStep } from '${resolveSync('./index.ts', import.meta.dir)}';
+  import { applyHooks, runStep } from '${path}';
   ${imports ?? ''}
   let state = {};
-  
+
   beforeAll(async () => {
     state = await applyHooks('beforeAll', state);
   });
-  
+
   afterAll(async () => {
     state = await applyHooks('afterAll', state);
   });

@@ -1,5 +1,7 @@
 import { Glob } from 'bun';
 
+import { normalizePath } from './utils';
+
 /**
  * Load all feature files matching the given glob pattern
  *
@@ -18,6 +20,6 @@ export const loadFeatures = async (pattern: string, cwd?: string): Promise<void>
     absolute: true,
     cwd,
   })) {
-    await import(file);
+    await import(normalizePath(file));
   }
 };
