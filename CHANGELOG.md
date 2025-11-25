@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.4](https://github.com/aboviq/bun-test-cucumber/compare/v0.1.3...v0.1.4) (2025-11-25)
+
+
+### Bug Fixes
+
+* windows paths break code generator ([#3](https://github.com/aboviq/bun-test-cucumber/issues/3)) ([4d22ad2](https://github.com/aboviq/bun-test-cucumber/commit/4d22ad28c5927215e47afa1947508b92cf75f39f))
+
 ## [0.1.3](https://github.com/aboviq/bun-test-cucumber/compare/v0.1.2...v0.1.3) (2025-11-04)
 
 
