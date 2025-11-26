@@ -29,8 +29,8 @@ When('I increase the counter by {int}', async (state, [value]) => {
   return { ...state, counter: typeof state.counter === 'number' ? state.counter + value : state.counter };
 });
 
-When(/I set counter to (\d+)/, async (state, [value]) => {
-  return { ...state, counter: Number(value) };
+When('I set counter to {int}', async (state, [value]) => {
+  return { ...state, counter: value };
 });
 
 When('I set counter to big {biginteger}', async (state, [value]) => {
@@ -39,32 +39,6 @@ When('I set counter to big {biginteger}', async (state, [value]) => {
 
 Then('It should match snapshot', async (state) => {
   expect(state.counter).toMatchSnapshot();
-
-  return state;
-});
-
-Then('^I should see the counter as a (number|bigint)$', async (state, [type]) => {
-  switch (type) {
-    case 'number':
-    case 'bigint':
-      expect(state.counter).toBeTypeOf(type);
-      break;
-    default:
-      throw new Error(`Unknown type: ${type}`);
-  }
-
-  return state;
-});
-
-Then('/I should see the counter as a (number|bigint)/', async (state, [type]) => {
-  switch (type) {
-    case 'number':
-    case 'bigint':
-      expect(state.counter).toBeTypeOf(type);
-      break;
-    default:
-      throw new Error(`Unknown type: ${type}`);
-  }
 
   return state;
 });

@@ -157,6 +157,10 @@ export interface AddStepFunction<S> {
     pattern: Pattern,
     fn: (state: State, args: ExtractTypes<Pattern>, data?: PickleStepArgument) => State | Promise<State>,
   ): void;
+  <State = S>(
+    pattern: string | RegExp,
+    fn: (state: State, args: Array<string | undefined>, data?: PickleStepArgument) => State | Promise<State>,
+  ): void;
 }
 
 export interface AddStepFunctionWithState<State> {
@@ -168,6 +172,10 @@ export interface AddStepFunctionWithState<State> {
   <Pattern extends string>(
     pattern: Pattern,
     fn: (state: State, args: ExtractTypes<Pattern>, data?: PickleStepArgument) => State | Promise<State>,
+  ): void;
+  (
+    pattern: string | RegExp,
+    fn: (state: State, args: Array<string | undefined>, data?: PickleStepArgument) => State | Promise<State>,
   ): void;
 }
 

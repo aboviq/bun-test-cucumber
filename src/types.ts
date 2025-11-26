@@ -53,7 +53,11 @@ export type ExtractTypes<T extends string> =
     : GherkinDataTypesToTypes<ExtractGherkinDataTypes<T>>;
 
 type RegexString<T extends string> = `/${T}/` | `^${T}$`;
-type ExtractRegexGroups<T extends string> = regex.parse<`^${T}$`> extends { inferCaptures: infer C } ? C : (string | undefined)[];
+type ExtractRegexGroups<T extends string> = regex.parse<`^${T}$`> extends { inferCaptures: infer C }
+  // Cucumber treats optional regexp groups as null values instead of undefined,
+  // probably due to its java roots?
+  ? { [k in keyof C]: undefined extends C[k] ? null : C[k] }
+  : (string | undefined)[];
 
 export type HookType = 'beforeAll' | 'before' | 'beforeStep' | 'afterStep' | 'after' | 'afterAll';
 
