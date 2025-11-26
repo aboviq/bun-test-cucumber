@@ -1,5 +1,6 @@
 import type { ExpressionFactory } from '@cucumber/cucumber-expressions';
 import parseTags from '@cucumber/tag-expressions';
+import type { regex } from 'arkregex';
 
 export type TagExpression = ReturnType<typeof parseTags>;
 
@@ -42,11 +43,21 @@ type ExtractGherkinDataType<
   S extends GherkinDataType[],
 > = T extends `${string}{${infer U extends GherkinDataType}` ? [...S, U] : S;
 
-type ExtractGherkinDataTypes<T extends string, S extends GherkinDataType[]> = T extends `${infer U}}${infer W}`
+type ExtractGherkinDataTypes<T extends string, S extends GherkinDataType[] = []> = T extends `${infer U}}${infer W}`
   ? ExtractGherkinDataTypes<W, ExtractGherkinDataType<U, S>>
   : ExtractGherkinDataType<T, S>;
 
-export type ExtractTypes<T extends string> = GherkinDataTypesToTypes<ExtractGherkinDataTypes<T, []>>;
+export type ExtractTypes<T extends string> =
+  T extends RegexString<infer Regex>
+    ? ExtractRegexGroups<Regex>
+    : GherkinDataTypesToTypes<ExtractGherkinDataTypes<T>>;
+
+type RegexString<T extends string> = `/${T}/` | `^${T}$`;
+type ExtractRegexGroups<T extends string> = regex.parse<`^${T}$`> extends { inferCaptures: infer C }
+  // Cucumber treats optional regexp groups as null values instead of undefined,
+  // probably due to its java roots?
+  ? { [k in keyof C]: undefined extends C[k] ? null : C[k] }
+  : (string | undefined)[];
 
 export type HookType = 'beforeAll' | 'before' | 'beforeStep' | 'afterStep' | 'after' | 'afterAll';
 
@@ -59,7 +70,7 @@ export type Hook<State> = {
 };
 
 export type Step = {
-  expression: string;
+  expression: string | RegExp;
   cucumberExpression: CucumberExpression;
   fn: Function;
 };

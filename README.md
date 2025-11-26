@@ -169,6 +169,43 @@ When('I am {word} the count', (state: MyState, [operation]) => {
 });
 ```
 
+#### Using with RegExp
+
+```ts
+import { Before, Given, When } from '@aboviq/bun-test-cucumber';
+
+interface MyState {
+  count: number;
+}
+
+Before<MyState>((state) => ({ ...state, count: 0 }));
+
+// untyped regexp
+Given(/the count is (\\d+|zero)/, (state: MyState, [count]) => {
+  // inferred as string | undefined
+  if (!count || count === 'zero') {
+    return { ...state, count: 0 };
+  }
+
+  return { ...state, count: Number(count) };
+});
+
+// simple typed regexp (note that it's a regex-like string)
+When('/I am (increasing|decreasing|doubling) the count/', (state: MyState, [operation]) => {
+  typeof operation; // inferred as 'increasing' | 'decreasing' | 'doubling'
+  switch (operation) {
+    case 'increasing':
+      return { ...state, count: state.count + 1 };
+    case 'decreasing':
+      return { ...state, count: state.count - 1 };
+    case 'doubling':
+      return { ...state, count: state.count * 2 };
+    default:
+      throw new Error(`Unknown operation: ${operation}`);
+  }
+});
+```
+
 ## License
 
 MIT © [Aboviq AB](https://aboviq.com)

@@ -1,5 +1,6 @@
 import { expect } from 'bun:test';
-import { withState, getDataTable } from '../src';
+
+import { getDataTable, withState } from '../src';
 
 interface State {
   counter: number | bigint;
